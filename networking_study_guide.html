@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Networks – Cybersecurity Edition</title>
+<style>
+:root {
+  --bg: #0a0e1a;
+  --bg2: #111827;
+  --bg3: #1a2235;
+  --card: #151f32;
+  --border: rgba(99,179,237,0.18);
+  --accent: #63b3ed;
+  --accent2: #68d391;
+  --accent3: #f6ad55;
+  --accent4: #fc8181;
+  --accent5: #b794f4;
+  --text: #e2e8f0;
+  --muted: #8892a4;
+  --tag-bg: rgba(99,179,237,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7;overflow-x:hidden}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(10,14,26,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:0;height:56px;overflow-x:auto}
+.nav-inner a{color:var(--muted);text-decoration:none;font-size:13px;padding:0 14px;white-space:nowrap;height:56px;display:flex;align-items:center;border-bottom:2px solid transparent;transition:all .2s}
+.nav-inner a:hover,.nav-inner a.active{color:var(--accent);border-bottom-color:var(--accent)}
+/* HERO */
+.hero{text-align:center;padding:80px 2rem 60px;background:radial-gradient(ellipse at 50% 0%,rgba(99,179,237,0.08) 0%,transparent 70%)}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:700;background:linear-gradient(135deg,#63b3ed,#b794f4,#68d391);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1rem}
+.hero p{color:var(--muted);font-size:1.1rem;max-width:600px;margin:0 auto 2rem}
+.badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.badge{background:var(--tag-bg);border:1px solid var(--border);color:var(--accent);font-size:12px;padding:4px 12px;border-radius:20px}
+/* LAYOUT */
+.container{max-width:1200px;margin:0 auto;padding:0 2rem 4rem}
+/* SECTION */
+.section{margin-bottom:3rem}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.section-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.section-header h2{font-size:1.4rem;font-weight:600}
+/* CARDS GRID */
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card-icon{font-size:1.6rem;margin-bottom:10px}
+.card h3{font-size:14px;font-weight:600;margin-bottom:6px;color:var(--accent)}
+.card p{font-size:13px;color:var(--muted);line-height:1.6}
+/* TABS */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem}
+.tab-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:6px 16px;border-radius:6px;cursor:pointer;font-size:13px;transition:all .2s;font-family:inherit}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#0a0e1a;font-weight:600}
+.tab-content{display:none}
+.tab-content.active{display:block}
+/* ANIMATED DIAGRAM */
+.diagram-box{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.5rem;overflow-x:auto}
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--bg3);color:var(--accent);padding:10px 14px;text-align:left;font-weight:600;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid rgba(99,179,237,0.07);color:var(--text)}
+tr:hover td{background:rgba(99,179,237,0.04)}
+/* CODE */
+pre{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1rem;overflow-x:auto;font-size:12.5px;line-height:1.6}
+code{font-family:'Fira Code','Cascadia Code',monospace;color:#68d391}
+.inline-code{background:rgba(104,211,145,0.12);border:1px solid rgba(104,211,145,0.2);color:#68d391;padding:2px 6px;border-radius:4px;font-size:12px;font-family:monospace}
+/* HIGHLIGHT BOXES */
+.info-box{background:rgba(99,179,237,0.08);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin:1rem 0}
+.warn-box{background:rgba(246,173,85,0.08);border-left:3px solid var(--accent3);border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin:1rem 0}
+.danger-box{background:rgba(252,129,129,0.08);border-left:3px solid var(--accent4);border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin:1rem 0}
+.success-box{background:rgba(104,211,145,0.08);border-left:3px solid var(--accent2);border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin:1rem 0}
+.box-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+/* ANIMATIONS */
+@keyframes packetMove{0%{left:4%}100%{left:90%}}
+@keyframes pulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+@keyframes glow{0%,100%{box-shadow:0 0 4px var(--accent)}50%{box-shadow:0 0 16px var(--accent)}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes floatUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+.animate-in{animation:floatUp .4s ease forwards}
+/* PACKET ANIMATION */
+.packet-demo{position:relative;height:120px;background:var(--bg3);border-radius:8px;border:1px solid var(--border);overflow:hidden;margin:1rem 0}
+.network-node{position:absolute;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;top:38px}
+.node-a{left:4%;background:rgba(99,179,237,0.2);border:2px solid var(--accent);color:var(--accent)}
+.node-r1{left:26%;background:rgba(183,148,244,0.2);border:2px solid var(--accent5);color:var(--accent5)}
+.node-r2{left:53%;background:rgba(183,148,244,0.2);border:2px solid var(--accent5);color:var(--accent5)}
+.node-b{right:4%;background:rgba(104,211,145,0.2);border:2px solid var(--accent2);color:var(--accent2)}
+.wire{position:absolute;top:60px;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent5),var(--accent2));left:10%;right:10%}
+.packet{position:absolute;width:28px;height:16px;border-radius:4px;background:var(--accent3);top:52px;font-size:9px;font-weight:700;color:#0a0e1a;display:flex;align-items:center;justify-content:center;animation:packetMove 2s linear infinite}
+/* OSI INTERACTIVE */
+.osi-layer{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;cursor:pointer;transition:all .2s;margin-bottom:6px;border:1px solid transparent}
+.osi-layer:hover{border-color:var(--border)}
+.osi-layer.selected{border-color:var(--accent);background:rgba(99,179,237,0.08)}
+.layer-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.layer-name{font-size:13px;font-weight:600;flex:1}
+.layer-pdu{font-size:11px;color:var(--muted)}
+.layer-detail{background:var(--bg3);border-radius:8px;padding:1.25rem;margin-top:8px;animation:slideDown .2s ease;border:1px solid var(--border)}
+/* IP CALC */
+.ip-input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-size:14px;font-family:monospace;outline:none}
+.ip-input:focus{border-color:var(--accent)}
+.ip-result{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.ip-stat{background:var(--bg3);border-radius:8px;padding:10px 14px;border:1px solid var(--border)}
+.ip-stat-label{font-size:11px;color:var(--muted);margin-bottom:2px}
+.ip-stat-val{font-size:14px;font-weight:600;color:var(--accent);font-family:monospace}
+/* STEPPER */
+.stepper{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.step-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:12px;font-weight:700;transition:all .2s;font-family:inherit}
+.step-btn.active{background:var(--accent);border-color:var(--accent);color:#0a0e1a}
+.step-panel{display:none}
+.step-panel.active{display:block;animation:slideDown .2s ease}
+/* ATTACK CARDS */
+.attack-card{background:var(--card);border:1px solid rgba(252,129,129,0.2);border-radius:10px;padding:1.25rem;transition:border-color .2s}
+.attack-card:hover{border-color:var(--accent4)}
+.attack-name{font-size:14px;font-weight:700;color:var(--accent4);margin-bottom:4px}
+.attack-layer{font-size:11px;color:var(--muted);margin-bottom:8px}
+.sev-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;margin-bottom:8px}
+.sev-high{background:rgba(252,129,129,0.2);color:var(--accent4)}
+.sev-med{background:rgba(246,173,85,0.2);color:var(--accent3)}
+.sev-crit{background:rgba(183,148,244,0.2);color:var(--accent5)}
+/* PROTOCOL TIMELINE */
+.timeline{position:relative;padding-left:24px;border-left:2px solid var(--border)}
+.timeline-item{position:relative;margin-bottom:1.5rem}
+.timeline-item::before{content:'';position:absolute;left:-29px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.timeline-year{font-size:11px;color:var(--accent);font-weight:700;margin-bottom:2px}
+.timeline-text{font-size:13px;color:var(--text)}
+/* QUIZ */
+.quiz-q{font-size:14px;font-weight:600;margin-bottom:12px}
+.quiz-opts{display:grid;gap:8px}
+.quiz-opt{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;font-size:13px;text-align:left;color:var(--text);transition:all .2s;font-family:inherit;width:100%}
+.quiz-opt:hover{border-color:var(--accent);background:rgba(99,179,237,0.06)}
+.quiz-opt.correct{border-color:var(--accent2);background:rgba(104,211,145,0.1);color:var(--accent2)}
+.quiz-opt.wrong{border-color:var(--accent4);background:rgba(252,129,129,0.1);color:var(--accent4)}
+.quiz-feedback{font-size:13px;padding:10px 14px;border-radius:8px;margin-top:10px;display:none}
+.quiz-feedback.show{display:block;animation:slideDown .2s ease}
+/* PROGRESS */
+.progress-bar{height:4px;background:var(--bg3);border-radius:2px;margin-top:8px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent5));border-radius:2px;transition:width .4s ease}
+/* ENCRYPTION VIS */
+.enc-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:1rem;text-align:center;font-family:monospace;font-size:13px}
+.enc-arrow{text-align:center;color:var(--accent3);font-size:20px;padding:4px 0}
+/* MISC */
+.tag{background:var(--tag-bg);color:var(--accent);font-size:11px;padding:2px 8px;border-radius:4px;border:1px solid var(--border)}
+.flex{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+ul.styled{padding-left:1.2rem}
+ul.styled li{margin-bottom:4px;font-size:13px;color:var(--muted)}
+ul.styled li strong{color:var(--text)}
+h3.sub{font-size:1rem;font-weight:600;color:var(--accent);margin:1.25rem 0 .5rem}
+.port-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.port-item{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:12px}
+.port-num{font-size:16px;font-weight:700;color:var(--accent5);font-family:monospace}
+.port-proto{color:var(--muted);font-size:11px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#overview" class="active">Overview</a>
+    <a href="#osi">OSI Model</a>
+    <a href="#ip">IP & Addressing</a>
+    <a href="#protocols">Protocols</a>
+    <a href="#switching">Switching</a>
+    <a href="#security">Security</a>
+    <a href="#attacks">Attacks</a>
+    <a href="#tools">Tools & Ports</a>
+    <a href="#quiz">Quiz</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Computer Networks</h1>
+  <p>A comprehensive, interactive guide for cybersecurity students — from fundamentals to attack surfaces</p>
+  <div class="badges">
+    <span class="badge">🔐 Cybersecurity Focus</span>
+    <span class="badge">⚡ Interactive Diagrams</span>
+    <span class="badge">🧠 OSI Deep Dive</span>
+    <span class="badge">🔍 IP Calculator</span>
+    <span class="badge">⚔️ Attack Taxonomy</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ===== SECTION 1: OVERVIEW ===== -->
+<div class="section" id="overview">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(99,179,237,0.2);color:var(--accent)">01</div>
+    <h2>Internet & Network Overview</h2>
+  </div>
+
+  <div class="grid grid-2" style="margin-bottom:1.5rem">
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <h3>What is the Internet?</h3>
+      <p>A global "network of networks" — interconnected systems communicating over TCP/IP. Originated from ARPANET (1969), funded by the US Department of Defense. The first long-distance communication linked MIT to California in 1965.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📡</div>
+      <h3>Data Communication</h3>
+      <p>Exchange of data between two devices via a transmission medium. Governed by <strong>protocols</strong> — rules defining syntax (structure), semantics (meaning), and timing (when/how fast) of data exchange.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔗</div>
+      <h3>Network Node</h3>
+      <p>Any device capable of sending/receiving data: computers, routers, switches, printers. Nodes communicate via <strong>peer-to-peer</strong> interfaces or <strong>service</strong> interfaces across layered protocol stacks.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏗️</div>
+      <h3>Network Infrastructure</h3>
+      <p><strong>Access Networks</strong> connect end-systems to the first router. <strong>Core Networks</strong> interconnect routers and ISPs using high-bandwidth links (1.5 Mbps – 622 Mbps+). ISP hierarchy: local → regional → national (NBPs).</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="box-title" style="color:var(--accent)">🔐 Cybersecurity Relevance</div>
+    <p>Understanding network infrastructure is the foundation of attack surface analysis. Every access network is a potential entry point; every protocol has vulnerabilities. Know the terrain before you defend (or test) it.</p>
+  </div>
+
+  <!-- Timeline -->
+  <h3 class="sub">Internet History Timeline</h3>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-year">1962</div><div class="timeline-text">ARPANET research begins under the US Department of Defense</div></div>
+    <div class="timeline-item"><div class="timeline-year">1965</div><div class="timeline-text">First long-distance computer communication: MIT ↔ California</div></div>
+    <div class="timeline-item"><div class="timeline-year">1969</div><div class="timeline-text">4 nodes connected via ARPANET; Leonard Kleinrock's packet switching theory applied</div></div>
+    <div class="timeline-item"><div class="timeline-year">1973</div><div class="timeline-text">Vint Cerf and Bob Kahn create TCP/IP protocols</div></div>
+    <div class="timeline-item"><div class="timeline-year">1983</div><div class="timeline-text">TCP/IP adopted as military standard; ARPANET splits into MILNET + ARPANET</div></div>
+    <div class="timeline-item"><div class="timeline-year">1991</div><div class="timeline-text">World Wide Web goes public (Tim Berners-Lee)</div></div>
+    <div class="timeline-item"><div class="timeline-year">1993</div><div class="timeline-text">IETF becomes independent; Mosaic browser launches</div></div>
+  </div>
+
+  <!-- Network Types -->
+  <h3 class="sub">Network Types by Geography</h3>
+  <div class="grid grid-3">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3>LAN</h3><span class="tag">Local</span>
+      </div>
+      <p>High-speed, short-distance (meters to ~1km). Single building or campus. Privately owned. Ethernet, Wi-Fi. <em>Attack surface: ARP spoofing, VLAN hopping, rogue AP</em></p>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3>MAN</h3><span class="tag">Metro</span>
+      </div>
+      <p>City-wide extension of LAN. Spans multiple LANs over a city. Can share resources across departments or branches.</p>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3>WAN</h3><span class="tag">Wide</span>
+      </div>
+      <p>Collection of networks (LANs) across countries/continents. Provider-managed. Slower than LAN. <em>Attack surface: BGP hijacking, MPLS vulnerabilities</em></p>
+    </div>
+  </div>
+
+  <!-- Network Hardware -->
+  <h3 class="sub">Network Hardware (Devices & Layers)</h3>
+  <table>
+    <tr><th>Device</th><th>OSI Layer</th><th>Address Used</th><th>Function</th><th>Security Note</th></tr>
+    <tr><td>Hub</td><td>Physical (L1)</td><td>None</td><td>Broadcasts to all ports</td><td style="color:var(--accent4)">All traffic visible to all nodes — easy to sniff</td></tr>
+    <tr><td>Repeater</td><td>Physical (L1)</td><td>None</td><td>Amplifies/regenerates signal</td><td style="color:var(--muted)">No filtering</td></tr>
+    <tr><td>Bridge</td><td>Data Link (L2)</td><td>MAC</td><td>Forwards frames by MAC; divides collision domains</td><td style="color:var(--accent3)">MAC flooding can overflow bridge tables</td></tr>
+    <tr><td>Switch</td><td>Data Link (L2)</td><td>MAC</td><td>Direct node-to-node communication, large port count</td><td style="color:var(--accent3)">ARP spoofing, MAC flooding, VLAN attacks</td></tr>
+    <tr><td>Router</td><td>Network (L3)</td><td>IP</td><td>Routes packets across heterogeneous networks</td><td style="color:var(--accent4)">BGP hijacking, route poisoning, OSPF attacks</td></tr>
+    <tr><td>Gateway</td><td>All layers</td><td>Protocol-specific</td><td>Translates between different protocols/architectures</td><td style="color:var(--muted)">Misconfiguration = full network exposure</td></tr>
+  </table>
+</div>
+
+<!-- ===== SECTION 2: OSI MODEL ===== -->
+<div class="section" id="osi">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(183,148,244,0.2);color:var(--accent5)">02</div>
+    <h2>OSI Model — Interactive Layer Explorer</h2>
+  </div>
+
+  <p style="color:var(--muted);margin-bottom:1.25rem;font-size:14px">Click any layer to explore its functions, protocols, PDUs, and cybersecurity attack vectors.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem" class="osi-layout">
+    <div id="osi-layers">
+      <div class="osi-layer" onclick="selectLayer(7)" data-layer="7">
+        <div class="layer-num" style="background:rgba(252,129,129,0.2);color:#fc8181">7</div>
+        <div class="layer-name">Application</div>
+        <div class="layer-pdu">Data</div>
+        <div style="color:var(--muted);font-size:11px">HTTP · FTP · DNS · SMTP</div>
+      </div>
+      <div class="osi-layer" onclick="selectLayer(6)" data-layer="6">
+        <div class="layer-num" style="background:rgba(246,173,85,0.2);color:#f6ad55">6</div>
+        <div class="layer-name">Presentation</div>
+        <div class="layer-pdu">Data</div>
+        <div style="color:var(--muted);font-size:11px">SSL/TLS · JPEG · MPEG</div>
+      </div>
+      <div class="osi-layer" onclick="selectLayer(5)" data-layer="5">
+        <div class="layer-num" style="background:rgba(104,211,145,0.2);color:#68d391">5</div>
+        <div class="layer-name">Session</div>
+        <div class="layer-pdu">Data</div>
+        <div style="color:var(--muted);font-size:11px">NetBIOS · RPC · PPTP</div>
+      </div>
+      <div class="osi-layer" onclick="selectLayer(4)" data-layer="4">
+        <div class="layer-num" style="background:rgba(99,179,237,0.2);color:#63b3ed">4</div>
+        <div class="layer-name">Transport</div>
+        <div class="layer-pdu">Segment</div>
+        <div style="color:var(--muted);font-size:11px">TCP · UDP · SCTP</div>
+      </div>
+      <div class="osi-layer" onclick="selectLayer(3)" data-layer="3">
+        <div class="layer-num" style="background:rgba(183,148,244,0.2);color:#b794f4">3</div>
+        <div class="layer-name">Network</div>
+        <div class="layer-pdu">Packet</div>
+        <div style="color:var(--muted);font-size:11px">IP · ICMP · OSPF · BGP</div>
+      </div>
+      <div class="osi-layer" onclick="selectLayer(2)" data-layer="2">
+        <div class="layer-num" style="background:rgba(104,211,145,0.2);color:#68d391">2</div>
+        <div class="layer-name">Data Link</div>
+        <div class="layer-pdu">Frame</div>
+        <div style="color:var(--muted);font-size:11px">Ethernet · 802.11 · ARP</div>
+      </div>
+      <div class="osi-layer" onclick="selectLayer(1)" data-layer="1">
+        <div class="layer-num" style="background:rgba(246,173,85,0.2);color:#f6ad55">1</div>
+        <div class="layer-name">Physical</div>
+        <div class="layer-pdu">Bits</div>
+        <div style="color:var(--muted);font-size:11px">RS-232 · RJ45 · Fiber</div>
+      </div>
+    </div>
+    <div id="layer-info-box" style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.5rem">
+      <p style="color:var(--muted);font-size:13px;text-align:center;margin-top:2rem">← Select a layer to see details</p>
+    </div>
+  </div>
+
+  <!-- TCP/IP vs OSI -->
+  <h3 class="sub" style="margin-top:2rem">TCP/IP Model vs OSI Model</h3>
+  <div class="diagram-box">
+    <div style="display:grid;grid-template-columns:1fr 40px 1fr;gap:12px;max-width:700px;margin:0 auto">
+      <div>
+        <div style="text-align:center;font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">OSI (7 Layers)</div>
+        <div style="border-radius:6px;padding:8px 12px;margin-bottom:4px;font-size:12px;background:rgba(252,129,129,0.15);border:1px solid rgba(252,129,129,0.3);text-align:center">7 Application</div>
+        <div style="border-radius:6px;padding:8px 12px;margin-bottom:4px;font-size:12px;background:rgba(246,173,85,0.15);border:1px solid rgba(246,173,85,0.3);text-align:center">6 Presentation</div>
+        <div style="border-radius:6px;padding:8px 12px;margin-bottom:4px;font-size:12px;background:rgba(104,211,145,0.15);border:1px solid rgba(104,211,145,0.3);text-align:center">5 Session</div>
+        <div style="border-radius:6px;padding:8px 12px;margin-bottom:4px;font-size:12px;background:rgba(99,179,237,0.15);border:1px solid rgba(99,179,237,0.3);text-align:center">4 Transport</div>
+        <div style="border-radius:6px;padding:8px 12px;margin-bottom:4px;font-size:12px;background:rgba(183,148,244,0.15);border:1px solid rgba(183,148,244,0.3);text-align:center">3 Network</div>
+        <div style="border-radius:6px;padding:8px 12px;margin-bottom:4px;font-size:12px;background:rgba(104,211,145,0.15);border:1px solid rgba(104,211,145,0.3);text-align:center">2 Data Link</div>
+        <div style="border-radius:6px;padding:8px 12px;font-size:12px;background:rgba(246,173,85,0.15);border:1px solid rgba(246,173,85,0.3);text-align:center">1 Physical</div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px">
+        <div style="font-size:11px;color:var(--muted);transform:rotate(90deg);white-space:nowrap">⟵ Maps ⟶</div>
+      </div>
+      <div>
+        <div style="text-align:center;font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:8px">TCP/IP (4 Layers)</div>
+        <div style="border-radius:6px;padding:32px 12px;margin-bottom:4px;font-size:12px;background:rgba(252,129,129,0.12);border:1px solid rgba(252,129,129,0.25);text-align:center">Application<br><span style="font-size:10px;color:var(--muted)">(merges L5+L6+L7)</span></div>
+        <div style="border-radius:6px;padding:20px 12px;margin-bottom:4px;font-size:12px;background:rgba(99,179,237,0.12);border:1px solid rgba(99,179,237,0.25);text-align:center">Transport (TCP/UDP)</div>
+        <div style="border-radius:6px;padding:20px 12px;margin-bottom:4px;font-size:12px;background:rgba(183,148,244,0.12);border:1px solid rgba(183,148,244,0.25);text-align:center">Internet (IP)</div>
+        <div style="border-radius:6px;padding:32px 12px;font-size:12px;background:rgba(246,173,85,0.12);border:1px solid rgba(246,173,85,0.25);text-align:center">Network Access<br><span style="font-size:10px;color:var(--muted)">(merges L1+L2)</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: IP ADDRESSING ===== -->
+<div class="section" id="ip">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(104,211,145,0.2);color:var(--accent2)">03</div>
+    <h2>IP Addressing & Subnetting</h2>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('ip-tab','ipv4')">IPv4 Classes</button>
+    <button class="tab-btn" onclick="switchTab('ip-tab','subnet')">Subnetting</button>
+    <button class="tab-btn" onclick="switchTab('ip-tab','ipv6')">IPv6</button>
+    <button class="tab-btn" onclick="switchTab('ip-tab','special')">Special Addresses</button>
+    <button class="tab-btn" onclick="switchTab('ip-tab','calc')">IP Calculator</button>
+  </div>
+
+  <div id="ip-tab">
+    <div class="tab-content active" id="ipv4">
+      <h3 class="sub">IPv4 Address Classes</h3>
+      <table>
+        <tr><th>Class</th><th>First Bits</th><th>Range</th><th>Default Mask</th><th>Networks</th><th>Hosts/Net</th><th>Use</th></tr>
+        <tr><td><strong style="color:var(--accent)">A</strong></td><td><code>0xxxxxxx</code></td><td>1.0.0.0 – 126.255.255.255</td><td>/8 (255.0.0.0)</td><td>126</td><td>16,777,214</td><td>Large orgs</td></tr>
+        <tr><td><strong style="color:var(--accent5)">B</strong></td><td><code>10xxxxxx</code></td><td>128.0.0.0 – 191.255.255.255</td><td>/16 (255.255.0.0)</td><td>16,384</td><td>65,534</td><td>Medium orgs</td></tr>
+        <tr><td><strong style="color:var(--accent2)">C</strong></td><td><code>110xxxxx</code></td><td>192.0.0.0 – 223.255.255.255</td><td>/24 (255.255.255.0)</td><td>2,097,152</td><td>254</td><td>Small orgs</td></tr>
+        <tr><td><strong style="color:var(--accent3)">D</strong></td><td><code>1110xxxx</code></td><td>224.0.0.0 – 239.255.255.255</td><td>—</td><td>Multicast</td><td>—</td><td>Multicast groups</td></tr>
+        <tr><td><strong style="color:var(--accent4)">E</strong></td><td><code>1111xxxx</code></td><td>240.0.0.0 – 254.255.255.255</td><td>—</td><td>Reserved</td><td>—</td><td>Experimental</td></tr>
+      </table>
+      <div class="warn-box" style="margin-top:1rem">
+        <div class="box-title" style="color:var(--accent3)">⚠️ Why -2 for Hosts?</div>
+        <p>Network address (all host bits = 0) and broadcast address (all host bits = 1) are reserved. A /24 subnet has 256 addresses but only 254 usable hosts.</p>
+      </div>
+    </div>
+
+    <div class="tab-content" id="subnet">
+      <h3 class="sub">Subnetting Concepts</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:1rem">Subnetting divides a network into smaller logical segments using a <strong>subnet mask</strong>. It improves security by isolating segments and reduces broadcast traffic.</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Subnet Mask Logic</h3>
+          <p>A subnet mask is a 32-bit number. 1s = network portion, 0s = host portion.</p>
+          <pre><code>IP:   192.168.1.100
+Mask: 255.255.255.0  (/24)
+
+Binary:
+IP:   11000000.10101000.00000001.01100100
+Mask: 11111111.11111111.11111111.00000000
+Net:  11000000.10101000.00000001.00000000
+      = 192.168.1.0</code></pre>
+        </div>
+        <div class="card">
+          <h3>CIDR Notation</h3>
+          <p>Classless Inter-Domain Routing (CIDR) uses prefix length after a slash.</p>
+          <pre><code>/8  = 255.0.0.0    (16M hosts)
+/16 = 255.255.0.0  (65K hosts)
+/24 = 255.255.255.0  (254 hosts)
+/25 = 255.255.255.128 (126 hosts)
+/30 = 255.255.255.252 (2 hosts)
+/32 = 255.255.255.255 (1 host)</code></pre>
+        </div>
+      </div>
+      <div class="info-box" style="margin-top:1rem">
+        <div class="box-title" style="color:var(--accent)">🔐 Security Use of Subnetting</div>
+        <p>Network segmentation is a core defense strategy. DMZ (Demilitarized Zone) uses subnets to isolate public-facing servers from the internal network. VLAN implementation maps to subnet architecture.</p>
+      </div>
+    </div>
+
+    <div class="tab-content" id="ipv6">
+      <h3 class="sub">IPv6 — Next Generation Addressing</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Key Differences from IPv4</h3>
+          <ul class="styled">
+            <li><strong>Address size:</strong> 128 bits (vs 32 bit) = 3.4 × 10³⁸ addresses</li>
+            <li><strong>Notation:</strong> Eight 16-bit hex groups separated by colons<br><code style="font-size:11px">2001:0db8:85a3::8a2e:0370:7334</code></li>
+            <li><strong>No broadcasts:</strong> Uses multicast instead</li>
+            <li><strong>Built-in IPSec:</strong> Security headers are native</li>
+            <li><strong>No NAT needed:</strong> Enough addresses for every device</li>
+            <li><strong>Auto-configuration:</strong> SLAAC (Stateless Address Auto-config)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>IPv6 Address Types</h3>
+          <ul class="styled">
+            <li><strong>Unicast:</strong> Global (<code>2000::/3</code>), Link-local (<code>fe80::/10</code>), Loopback (<code>::1</code>)</li>
+            <li><strong>Multicast:</strong> Prefix <code>ff00::/8</code> — replaces broadcast</li>
+            <li><strong>Anycast:</strong> One address, multiple interfaces — nearest responds</li>
+          </ul>
+          <div class="danger-box" style="margin-top:12px">
+            <div class="box-title" style="color:var(--accent4)">⚠️ IPv6 Security Risks</div>
+            <p style="font-size:12px">Many firewalls are IPv4-only. Attackers use IPv6 tunnels to bypass. Neighbor Discovery Protocol (NDP) lacks authentication — vulnerable to ND Spoofing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="special">
+      <h3 class="sub">Special & Reserved IP Addresses</h3>
+      <table>
+        <tr><th>Range</th><th>Purpose</th><th>Security Note</th></tr>
+        <tr><td><code>10.0.0.0/8</code></td><td>Private Class A (RFC 1918)</td><td style="color:var(--accent3)">Internal only — should never appear on public internet</td></tr>
+        <tr><td><code>172.16.0.0/12</code></td><td>Private Class B (RFC 1918)</td><td style="color:var(--accent3)">Spoofed source IPs from this range = internal attacker</td></tr>
+        <tr><td><code>192.168.0.0/16</code></td><td>Private Class C (RFC 1918)</td><td style="color:var(--accent3)">Most common home/office network range</td></tr>
+        <tr><td><code>127.0.0.0/8</code></td><td>Loopback (localhost)</td><td style="color:var(--muted)">Never routed; used for testing TCP/IP stack</td></tr>
+        <tr><td><code>169.254.0.0/16</code></td><td>APIPA / Link-local</td><td style="color:var(--accent4)">DHCP failure indicator; device has no valid IP</td></tr>
+        <tr><td><code>224.0.0.0/4</code></td><td>Multicast (Class D)</td><td style="color:var(--accent3)">IGMP exploits; multicast amplification DDoS</td></tr>
+        <tr><td><code>0.0.0.0/0</code></td><td>Default route</td><td style="color:var(--accent4)">Misconfigured default route = traffic leak</td></tr>
+        <tr><td><code>255.255.255.255</code></td><td>Limited broadcast</td><td style="color:var(--muted)">Stays on local subnet; not forwarded by routers</td></tr>
+      </table>
+    </div>
+
+    <div class="tab-content" id="calc">
+      <h3 class="sub">IP / Subnet Calculator</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:10px">Enter an IP address in CIDR notation (e.g. <code style="color:var(--accent)">192.168.1.50/24</code>)</p>
+      <input class="ip-input" type="text" id="calc-input" placeholder="e.g. 192.168.1.50/24" oninput="calcIP(this.value)">
+      <div class="ip-result" id="calc-result"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: PROTOCOLS ===== -->
+<div class="section" id="protocols">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(246,173,85,0.2);color:var(--accent3)">04</div>
+    <h2>Core Network Protocols</h2>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('proto-tab','tcp')">TCP</button>
+    <button class="tab-btn" onclick="switchTab('proto-tab','udp')">UDP</button>
+    <button class="tab-btn" onclick="switchTab('proto-tab','dns')">DNS</button>
+    <button class="tab-btn" onclick="switchTab('proto-tab','http')">HTTP/S</button>
+    <button class="tab-btn" onclick="switchTab('proto-tab','arp')">ARP & DHCP</button>
+    <button class="tab-btn" onclick="switchTab('proto-tab','icmp')">ICMP</button>
+  </div>
+
+  <div id="proto-tab">
+    <div class="tab-content active" id="tcp">
+      <h3 class="sub">TCP — Three-Way Handshake</h3>
+      <div class="diagram-box" id="tcp-stepper-box">
+        <div class="stepper" id="tcp-steps">
+          <button class="step-btn active" onclick="tcpStep(0)">1</button>
+          <button class="step-btn" onclick="tcpStep(1)">2</button>
+          <button class="step-btn" onclick="tcpStep(2)">3</button>
+          <button class="step-btn" onclick="tcpStep(3)">4</button>
+        </div>
+        <div class="step-panel active" id="tcp-p0">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div class="enc-box" style="border-color:var(--accent)">Client<br><span style="color:var(--muted);font-size:11px">CLOSED → SYN_SENT</span></div>
+            <div class="enc-box">Server<br><span style="color:var(--muted);font-size:11px">LISTEN</span></div>
+          </div>
+          <p style="font-size:13px;color:var(--muted)">Step 1: Client sends <strong>SYN</strong> (Synchronize) packet with random Initial Sequence Number (ISN). State changes to SYN_SENT.</p>
+          <div class="enc-arrow">SYN (Seq=x) ——→</div>
+        </div>
+        <div class="step-panel" id="tcp-p1">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div class="enc-box">Client<br><span style="color:var(--muted);font-size:11px">SYN_SENT</span></div>
+            <div class="enc-box" style="border-color:var(--accent2)">Server<br><span style="color:var(--muted);font-size:11px">SYN_RECEIVED</span></div>
+          </div>
+          <p style="font-size:13px;color:var(--muted)">Step 2: Server responds with <strong>SYN-ACK</strong>. ACK = client ISN+1, SYN = server's own ISN.</p>
+          <div class="enc-arrow">←— SYN-ACK (Seq=y, Ack=x+1)</div>
+        </div>
+        <div class="step-panel" id="tcp-p2">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div class="enc-box" style="border-color:var(--accent2)">Client<br><span style="color:var(--muted);font-size:11px">ESTABLISHED</span></div>
+            <div class="enc-box" style="border-color:var(--accent2)">Server<br><span style="color:var(--muted);font-size:11px">ESTABLISHED</span></div>
+          </div>
+          <p style="font-size:13px;color:var(--muted)">Step 3: Client sends <strong>ACK</strong>. ACK = server ISN+1. Connection established! Data can now flow.</p>
+          <div class="enc-arrow">ACK (Ack=y+1) ——→</div>
+        </div>
+        <div class="step-panel" id="tcp-p3">
+          <div class="danger-box">
+            <div class="box-title" style="color:var(--accent4)">⚔️ SYN Flood Attack</div>
+            <p style="font-size:13px">Attacker sends thousands of SYN packets with spoofed source IPs. Server enters SYN_RECEIVED for each, consuming connection table (backlog) until legitimate connections are refused. <strong>Defense:</strong> SYN cookies, rate limiting, firewall rules.</p>
+          </div>
+          <div class="info-box" style="margin-top:8px">
+            <div class="box-title" style="color:var(--accent)">TCP Flags Reference</div>
+            <div style="font-size:12px;font-family:monospace;color:var(--text)">SYN=Synchronize | ACK=Acknowledge | FIN=Finish<br>RST=Reset | PSH=Push | URG=Urgent</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-2" style="margin-top:1rem">
+        <div class="card">
+          <h3>TCP Header Fields</h3>
+          <ul class="styled">
+            <li><strong>Source/Destination Port:</strong> 16-bit each</li>
+            <li><strong>Sequence Number:</strong> 32-bit, byte ordering</li>
+            <li><strong>Acknowledgment Number:</strong> Next expected byte</li>
+            <li><strong>Window Size:</strong> Flow control buffer size</li>
+            <li><strong>Checksum:</strong> Error detection</li>
+            <li><strong>Urgent Pointer:</strong> For URG flag data</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>TCP vs UDP at a Glance</h3>
+          <ul class="styled">
+            <li><strong>TCP:</strong> Connection-oriented, reliable, ordered, slower</li>
+            <li><strong>UDP:</strong> Connectionless, unreliable, no ordering, faster</li>
+            <li><strong>TCP uses:</strong> HTTP, FTP, SSH, SMTP, POP3</li>
+            <li><strong>UDP uses:</strong> DNS, DHCP, VoIP, video streaming, SNMP</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="udp">
+      <h3 class="sub">UDP — User Datagram Protocol</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Characteristics</h3>
+          <ul class="styled">
+            <li><strong>Connectionless:</strong> No handshake — fire and forget</li>
+            <li><strong>Unreliable:</strong> No guarantee of delivery or order</li>
+            <li><strong>Fast:</strong> Minimal overhead (8-byte header vs TCP's 20-byte)</li>
+            <li><strong>Broadcast/Multicast:</strong> Supports one-to-many</li>
+          </ul>
+          <pre style="margin-top:10px"><code>UDP Header (8 bytes):
+[Src Port 16] [Dst Port 16]
+[Length  16] [Checksum 16]</code></pre>
+        </div>
+        <div class="card">
+          <h3>UDP Attacks</h3>
+          <div class="attack-card" style="margin-bottom:8px">
+            <div class="attack-name">UDP Flood DDoS</div>
+            <span class="sev-badge sev-high">HIGH</span>
+            <p style="font-size:12px;color:var(--muted)">Overwhelms target with UDP packets to random ports, forcing ICMP "port unreachable" responses. Exhausts bandwidth/CPU.</p>
+          </div>
+          <div class="attack-card">
+            <div class="attack-name">DNS Amplification</div>
+            <span class="sev-badge sev-crit">CRITICAL</span>
+            <p style="font-size:12px;color:var(--muted)">Exploits open DNS resolvers via UDP. Attacker spoofs victim IP, resolver sends large responses (100x amplification) to victim.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="dns">
+      <h3 class="sub">DNS — Domain Name System</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>How DNS Works</h3>
+          <ol style="padding-left:1.2rem;font-size:13px;color:var(--muted)">
+            <li style="margin-bottom:6px">Browser checks <strong>local cache</strong></li>
+            <li style="margin-bottom:6px">Queries <strong>OS resolver</strong> (checks /etc/hosts)</li>
+            <li style="margin-bottom:6px">Queries <strong>Recursive DNS resolver</strong> (ISP or 8.8.8.8)</li>
+            <li style="margin-bottom:6px">Resolver queries <strong>Root Name Server</strong> (13 roots)</li>
+            <li style="margin-bottom:6px">Root directs to <strong>TLD Name Server</strong> (.com, .org)</li>
+            <li style="margin-bottom:6px">TLD directs to <strong>Authoritative NS</strong></li>
+            <li>IP returned, cached with TTL</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>DNS Record Types</h3>
+          <table style="font-size:12px">
+            <tr><th>Record</th><th>Purpose</th></tr>
+            <tr><td><code>A</code></td><td>IPv4 address</td></tr>
+            <tr><td><code>AAAA</code></td><td>IPv6 address</td></tr>
+            <tr><td><code>CNAME</code></td><td>Alias to another name</td></tr>
+            <tr><td><code>MX</code></td><td>Mail exchanger</td></tr>
+            <tr><td><code>NS</code></td><td>Name server</td></tr>
+            <tr><td><code>PTR</code></td><td>Reverse lookup</td></tr>
+            <tr><td><code>TXT</code></td><td>SPF, DKIM, DMARC</td></tr>
+            <tr><td><code>SOA</code></td><td>Start of Authority</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="danger-box" style="margin-top:1rem">
+        <div class="box-title" style="color:var(--accent4)">⚔️ DNS Attack Vectors</div>
+        <div class="grid grid-2" style="margin-top:8px">
+          <div><strong style="font-size:13px">DNS Cache Poisoning:</strong><p style="font-size:12px;color:var(--muted)">Injecting false records into resolver cache, redirecting users to malicious IPs.</p></div>
+          <div><strong style="font-size:13px">DNS Hijacking:</strong><p style="font-size:12px;color:var(--muted)">Compromising router/ISP DNS settings to intercept all lookups.</p></div>
+          <div><strong style="font-size:13px">DNS Tunneling:</strong><p style="font-size:12px;color:var(--muted)">Encoding data in DNS queries to exfiltrate data through firewalls.</p></div>
+          <div><strong style="font-size:13px">DDoS via DNS:</strong><p style="font-size:12px;color:var(--muted)">Amplification attacks using ANY queries to open resolvers.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="http">
+      <h3 class="sub">HTTP & HTTPS</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>HTTP Methods</h3>
+          <ul class="styled">
+            <li><strong>GET:</strong> Retrieve resource (no body)</li>
+            <li><strong>POST:</strong> Submit data (has body)</li>
+            <li><strong>PUT:</strong> Create/replace resource</li>
+            <li><strong>PATCH:</strong> Partial update</li>
+            <li><strong>DELETE:</strong> Remove resource</li>
+            <li><strong>OPTIONS:</strong> Check allowed methods (CORS)</li>
+            <li><strong>HEAD:</strong> GET without body</li>
+            <li><strong>CONNECT:</strong> Tunnel (proxy abuse)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>HTTP Status Codes</h3>
+          <ul class="styled">
+            <li><strong style="color:var(--accent2)">2xx Success:</strong> 200 OK, 201 Created, 204 No Content</li>
+            <li><strong style="color:var(--accent)">3xx Redirect:</strong> 301 Permanent, 302 Found, 304 Not Modified</li>
+            <li><strong style="color:var(--accent3)">4xx Client Error:</strong> 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found</li>
+            <li><strong style="color:var(--accent4)">5xx Server Error:</strong> 500 Internal, 502 Bad Gateway, 503 Unavailable</li>
+          </ul>
+        </div>
+      </div>
+      <h3 class="sub">HTTPS / TLS Handshake</h3>
+      <div class="diagram-box">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:600px;margin:0 auto">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px;text-align:center">Client</div>
+            <div style="border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px;margin-bottom:6px">1. ClientHello<br><span style="color:var(--muted)">TLS version, cipher suites, random</span></div>
+            <div style="border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px;margin-bottom:6px">3. Key Exchange<br><span style="color:var(--muted)">Pre-master secret (encrypted)</span></div>
+            <div style="border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px">5. Finished<br><span style="color:var(--muted)">ChangeCipherSpec</span></div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:8px;text-align:center">Server</div>
+            <div style="border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px;margin-bottom:6px">2. ServerHello + Certificate<br><span style="color:var(--muted)">Chosen cipher, cert chain</span></div>
+            <div style="border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px;margin-bottom:6px">4. ServerHelloDone<br><span style="color:var(--muted)">Awaiting client key</span></div>
+            <div style="border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px">6. Finished<br><span style="color:var(--muted)">Encrypted communication starts</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="arp">
+      <h3 class="sub">ARP — Address Resolution Protocol</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>How ARP Works</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:8px">ARP maps IP addresses to MAC addresses on a local network. Uses a broadcast mechanism.</p>
+          <pre><code>Who has 192.168.1.1? (Broadcast)
+→ All devices receive it
+→ 192.168.1.1 responds:
+  "I'm at AA:BB:CC:DD:EE:FF"
+→ Stored in ARP cache</code></pre>
+        </div>
+        <div class="card">
+          <h3>DHCP — Dynamic Host Config</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Automatically assigns IP configuration using <strong>DORA</strong> process:</p>
+          <ul class="styled">
+            <li><strong>D</strong>iscover — Client broadcasts</li>
+            <li><strong>O</strong>ffer — Server offers IP</li>
+            <li><strong>R</strong>equest — Client requests offered IP</li>
+            <li><strong>A</strong>cknowledge — Server confirms lease</li>
+          </ul>
+        </div>
+      </div>
+      <div class="danger-box">
+        <div class="box-title" style="color:var(--accent4)">⚔️ ARP Poisoning Attack</div>
+        <p style="font-size:13px">Attacker sends gratuitous ARP replies associating their MAC with another host's IP. ARP caches are poisoned — traffic destined for the victim flows to the attacker (Man-in-the-Middle). <strong>Defense:</strong> Dynamic ARP Inspection (DAI), static ARP entries, network monitoring with arpwatch.</p>
+      </div>
+    </div>
+
+    <div class="tab-content" id="icmp">
+      <h3 class="sub">ICMP — Internet Control Message Protocol</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Key ICMP Message Types</h3>
+          <table style="font-size:12px">
+            <tr><th>Type</th><th>Name</th><th>Use</th></tr>
+            <tr><td>0</td><td>Echo Reply</td><td>ping response</td></tr>
+            <tr><td>3</td><td>Dest Unreachable</td><td>routing error</td></tr>
+            <tr><td>5</td><td>Redirect</td><td>better route available</td></tr>
+            <tr><td>8</td><td>Echo Request</td><td>ping</td></tr>
+            <tr><td>11</td><td>Time Exceeded</td><td>TTL expired (traceroute)</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h3>ICMP Attack Vectors</h3>
+          <div class="attack-card" style="margin-bottom:8px">
+            <div class="attack-name">Ping of Death</div>
+            <span class="sev-badge sev-high">HIGH</span>
+            <p style="font-size:12px;color:var(--muted)">Oversized ICMP packet (>65,536 bytes) causes buffer overflow on vulnerable systems.</p>
+          </div>
+          <div class="attack-card">
+            <div class="attack-name">Smurf Attack</div>
+            <span class="sev-badge sev-crit">CRITICAL</span>
+            <p style="font-size:12px;color:var(--muted)">Attacker spoofs victim IP, sends ICMP Echo to broadcast — entire network replies to victim.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 5: PACKET SWITCHING ===== -->
+<div class="section" id="switching">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(104,211,145,0.2);color:var(--accent2)">05</div>
+    <h2>Switching Technologies</h2>
+  </div>
+
+  <!-- Packet animation -->
+  <h3 class="sub">Packet in Motion</h3>
+  <div class="packet-demo">
+    <div class="network-node node-a">A</div>
+    <div class="wire"></div>
+    <div class="network-node node-r1">R1</div>
+    <div class="network-node node-r2">R2</div>
+    <div class="network-node node-b">B</div>
+    <div class="packet">PKT</div>
+    <div style="position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:10px;color:var(--muted)">Packet traveling A → R1 → R2 → B (each router makes independent routing decisions)</div>
+  </div>
+
+  <div class="grid grid-3">
+    <div class="card">
+      <h3>Circuit Switching</h3>
+      <p>Dedicated path reserved for entire session. Phases: Setup → Data Transfer → Teardown. <em>Example: PSTN telephone networks.</em></p>
+      <ul class="styled" style="margin-top:8px">
+        <li><strong>+</strong> Guaranteed bandwidth</li>
+        <li><strong>+</strong> Low, predictable delay</li>
+        <li><strong>−</strong> Wastes bandwidth when idle</li>
+        <li><strong>−</strong> Setup overhead</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Packet Switching (Datagram)</h3>
+      <p>Messages split into packets. Each packet routed independently using routing tables. <em>Used by the Internet (IP).</em></p>
+      <ul class="styled" style="margin-top:8px">
+        <li><strong>+</strong> Efficient resource use</li>
+        <li><strong>+</strong> Fault tolerant (rerouting)</li>
+        <li><strong>−</strong> Variable delay (jitter)</li>
+        <li><strong>−</strong> Out-of-order delivery possible</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Virtual Circuit Switching</h3>
+      <p>Hybrid: path set up in advance (like circuit), data sent in packets. VCI (Virtual Circuit ID) changes per hop. <em>Example: ATM, Frame Relay, MPLS.</em></p>
+      <ul class="styled" style="margin-top:8px">
+        <li><strong>+</strong> Ordered delivery guaranteed</li>
+        <li><strong>+</strong> QoS control</li>
+        <li><strong>−</strong> Setup delay</li>
+        <li><strong>−</strong> Complex state management</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sub">IP Packet Header Deep Dive</h3>
+  <div class="diagram-box">
+    <div style="font-family:monospace;font-size:12px;line-height:1.8">
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:2px;text-align:center;font-size:10px;color:var(--muted);margin-bottom:4px">
+        <span>0</span><span>4</span><span>8</span><span>12</span><span>16</span><span>20</span><span>24</span><span>31</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 2fr 3fr;gap:3px;margin-bottom:3px">
+        <div style="background:rgba(99,179,237,0.2);border:1px solid var(--accent);border-radius:4px;padding:6px;text-align:center;font-size:11px">Version<br><span style="color:var(--muted)">4b</span></div>
+        <div style="background:rgba(99,179,237,0.2);border:1px solid var(--accent);border-radius:4px;padding:6px;text-align:center;font-size:11px">IHL<br><span style="color:var(--muted)">4b</span></div>
+        <div style="background:rgba(183,148,244,0.2);border:1px solid var(--accent5);border-radius:4px;padding:6px;text-align:center;font-size:11px">ToS/DSCP<br><span style="color:var(--muted)">8b</span></div>
+        <div style="background:rgba(104,211,145,0.2);border:1px solid var(--accent2);border-radius:4px;padding:6px;text-align:center;font-size:11px">Total Length<br><span style="color:var(--muted)">16b — max 65,535 bytes</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:3fr 1fr 2fr;gap:3px;margin-bottom:3px">
+        <div style="background:rgba(246,173,85,0.2);border:1px solid var(--accent3);border-radius:4px;padding:6px;text-align:center;font-size:11px">Identification<br><span style="color:var(--muted)">16b — fragment ID</span></div>
+        <div style="background:rgba(252,129,129,0.2);border:1px solid var(--accent4);border-radius:4px;padding:6px;text-align:center;font-size:11px">Flags<br><span style="color:var(--muted)">3b</span></div>
+        <div style="background:rgba(252,129,129,0.2);border:1px solid var(--accent4);border-radius:4px;padding:6px;text-align:center;font-size:11px">Fragment Offset<br><span style="color:var(--muted)">13b</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 2fr 3fr;gap:3px;margin-bottom:3px">
+        <div style="background:rgba(99,179,237,0.15);border:1px solid var(--border);border-radius:4px;padding:6px;text-align:center;font-size:11px">TTL<br><span style="color:var(--muted)">8b — hop limit</span></div>
+        <div style="background:rgba(99,179,237,0.15);border:1px solid var(--border);border-radius:4px;padding:6px;text-align:center;font-size:11px">Protocol<br><span style="color:var(--muted)">8b (6=TCP, 17=UDP)</span></div>
+        <div style="background:rgba(99,179,237,0.15);border:1px solid var(--border);border-radius:4px;padding:6px;text-align:center;font-size:11px">Header Checksum<br><span style="color:var(--muted)">16b</span></div>
+      </div>
+      <div style="background:rgba(183,148,244,0.15);border:1px solid var(--accent5);border-radius:4px;padding:8px;text-align:center;font-size:11px;margin-bottom:3px">Source IP Address (32 bits)</div>
+      <div style="background:rgba(104,211,145,0.15);border:1px solid var(--accent2);border-radius:4px;padding:8px;text-align:center;font-size:11px;margin-bottom:3px">Destination IP Address (32 bits)</div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px;text-align:center;font-size:11px">Options (variable) + Data/Payload</div>
+    </div>
+    <div class="info-box" style="margin-top:12px">
+      <div class="box-title" style="color:var(--accent)">🔐 TTL as a Fingerprinting Tool</div>
+      <p style="font-size:13px">Default TTL reveals OS: Linux=64, Windows=128, Cisco=255. By counting hops (128-TTL seen), you can estimate network distance. Used in passive OS fingerprinting by Nmap, p0f, and Wireshark.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 6: SECURITY ===== -->
+<div class="section" id="security">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(252,129,129,0.2);color:var(--accent4)">06</div>
+    <h2>Network Security Fundamentals</h2>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('sec-tab','firewall')">Firewalls</button>
+    <button class="tab-btn" onclick="switchTab('sec-tab','nat')">NAT</button>
+    <button class="tab-btn" onclick="switchTab('sec-tab','vpn')">VPN</button>
+    <button class="tab-btn" onclick="switchTab('sec-tab','crypto')">Encryption</button>
+    <button class="tab-btn" onclick="switchTab('sec-tab','ids')">IDS/IPS</button>
+  </div>
+
+  <div id="sec-tab">
+    <div class="tab-content active" id="firewall">
+      <h3 class="sub">Firewall Types</h3>
+      <div class="grid grid-3">
+        <div class="card" style="border-color:rgba(99,179,237,0.3)">
+          <h3>Packet Filter (L3/L4)</h3>
+          <p style="font-size:13px;color:var(--muted)">Inspects IP/TCP/UDP headers. Rules based on source IP, destination IP, port, protocol. Stateless — each packet evaluated independently.</p>
+          <div class="info-box" style="margin-top:10px;padding:.75rem">
+            <p style="font-size:11px">⚠️ Cannot detect application-layer attacks. Easily evaded by fragmentation.</p>
+          </div>
+        </div>
+        <div class="card" style="border-color:rgba(104,211,145,0.3)">
+          <h3>Stateful Inspection (L4)</h3>
+          <p style="font-size:13px;color:var(--muted)">Tracks connection state (SYN→ESTABLISHED). Knows if a packet belongs to an existing connection. Blocks unexpected packets.</p>
+          <div class="success-box" style="margin-top:10px;padding:.75rem">
+            <p style="font-size:11px">✅ Prevents TCP state hijacking. Standard in modern firewalls.</p>
+          </div>
+        </div>
+        <div class="card" style="border-color:rgba(183,148,244,0.3)">
+          <h3>Application Gateway / Proxy (L7)</h3>
+          <p style="font-size:13px;color:var(--muted)">Understands specific protocols (HTTP, FTP). Acts as relay — terminates and re-initiates connections. Deep packet inspection (DPI).</p>
+          <div class="info-box" style="margin-top:10px;padding:.75rem">
+            <p style="font-size:11px">🔐 Can detect SQLi, XSS, protocol abuse. Used in WAF (Web Application Firewall).</p>
+          </div>
+        </div>
+      </div>
+      <h3 class="sub">Firewall Rule Logic</h3>
+      <pre><code># Example iptables rules (Linux firewall)
+iptables -A INPUT -p tcp --dport 22 -s 10.0.0.0/24 -j ACCEPT  # Allow SSH from LAN
+iptables -A INPUT -p tcp --dport 22 -j DROP                    # Block SSH from everywhere else
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT                  # Allow HTTP
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT                 # Allow HTTPS
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT  # Allow return traffic
+iptables -A INPUT -j DROP                                       # Default deny</code></pre>
+    </div>
+
+    <div class="tab-content" id="nat">
+      <h3 class="sub">NAT — Network Address Translation</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>How NAT Works</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:8px">NAT replaces private source IPs with a single public IP. The router maintains a translation table mapping {private IP, private port} → {public IP, public port}.</p>
+          <pre><code>Private:  192.168.1.100:54321
+   ↓ NAT Router ↓
+Public:   203.0.113.5:1024
+
+Translation Table:
+192.168.1.100:54321 ↔ 203.0.113.5:1024
+192.168.1.101:54322 ↔ 203.0.113.5:1025</code></pre>
+        </div>
+        <div class="card">
+          <h3>NAT Types</h3>
+          <ul class="styled">
+            <li><strong>Static NAT:</strong> 1:1 mapping, public IP per private host</li>
+            <li><strong>Dynamic NAT:</strong> Pool of public IPs, assigned on demand</li>
+            <li><strong>PAT / NAT Overload:</strong> Many-to-one using ports (most common — home routers)</li>
+          </ul>
+          <div class="info-box" style="margin-top:10px">
+            <p style="font-size:12px">🔐 NAT provides implicit security — external hosts cannot initiate connections to internal hosts (no direct path). However, it breaks end-to-end connectivity and complicates some protocols (FTP, SIP).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="vpn">
+      <h3 class="sub">VPN — Virtual Private Network</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>VPN Protocols</h3>
+          <table style="font-size:12px">
+            <tr><th>Protocol</th><th>Port</th><th>Security</th></tr>
+            <tr><td>OpenVPN</td><td>1194 UDP</td><td style="color:var(--accent2)">Strong (TLS)</td></tr>
+            <tr><td>WireGuard</td><td>51820 UDP</td><td style="color:var(--accent2)">Modern, fast</td></tr>
+            <tr><td>IKEv2/IPSec</td><td>500/4500 UDP</td><td style="color:var(--accent2)">Enterprise</td></tr>
+            <tr><td>L2TP/IPSec</td><td>1701 UDP</td><td style="color:var(--accent3)">Weaker alone</td></tr>
+            <tr><td>PPTP</td><td>1723 TCP</td><td style="color:var(--accent4)">Broken — avoid</td></tr>
+            <tr><td>SSL/TLS VPN</td><td>443 TCP</td><td style="color:var(--accent2)">Firewall friendly</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h3>IPSec Modes</h3>
+          <ul class="styled">
+            <li><strong>Transport Mode:</strong> Encrypts only the payload. Original IP header preserved. Used for host-to-host.</li>
+            <li><strong>Tunnel Mode:</strong> Entire packet (including original header) encrypted and wrapped in a new packet. Used for site-to-site VPNs.</li>
+          </ul>
+          <div class="warn-box" style="margin-top:10px">
+            <p style="font-size:12px">⚠️ VPN ≠ Anonymous. Logs may exist. DNS leaks are common. Split tunneling can bypass VPN for some traffic.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="crypto">
+      <h3 class="sub">Encryption & Digital Signatures</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Symmetric Encryption</h3>
+          <p style="font-size:13px;color:var(--muted)">Same key for encryption and decryption. Fast, used for bulk data.</p>
+          <div class="enc-box" style="margin-top:8px">Plaintext</div>
+          <div class="enc-arrow">⬇ AES-256 + Key</div>
+          <div class="enc-box">Ciphertext: 3f8a2b...</div>
+          <div class="enc-arrow">⬇ AES-256 + Same Key</div>
+          <div class="enc-box">Plaintext</div>
+          <ul class="styled" style="margin-top:8px">
+            <li><strong>AES:</strong> Current standard (128/192/256-bit keys)</li>
+            <li><strong>DES/3DES:</strong> Deprecated, weak</li>
+            <li><strong>ChaCha20:</strong> Used in TLS 1.3, mobile</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Asymmetric Encryption</h3>
+          <p style="font-size:13px;color:var(--muted)">Public key encrypts; private key decrypts. Slower, used for key exchange and signatures.</p>
+          <ul class="styled" style="margin-top:8px">
+            <li><strong>RSA:</strong> 2048/4096-bit. Based on prime factoring</li>
+            <li><strong>ECC:</strong> Elliptic curve — shorter keys, same strength</li>
+            <li><strong>Diffie-Hellman:</strong> Key exchange protocol</li>
+            <li><strong>ECDH:</strong> Elliptic curve DH — used in TLS 1.3</li>
+          </ul>
+          <div class="info-box" style="margin-top:10px">
+            <p style="font-size:12px">🔐 Digital Signature: Sender signs with private key → recipient verifies with sender's public key. Provides authentication + non-repudiation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="ids">
+      <h3 class="sub">IDS / IPS — Intrusion Detection/Prevention</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Detection Methods</h3>
+          <ul class="styled">
+            <li><strong>Signature-based:</strong> Matches known attack patterns. Fast, no false positives for known threats. Cannot detect 0-days.</li>
+            <li><strong>Anomaly-based:</strong> Establishes baseline, flags deviations. Catches novel attacks but higher false positive rate.</li>
+            <li><strong>Heuristic:</strong> Rules derived from attack behaviors, not exact signatures.</li>
+            <li><strong>Behavioral:</strong> ML-based, learns normal user/system behavior.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Placement Strategies</h3>
+          <ul class="styled">
+            <li><strong>NIDS:</strong> Network IDS — monitors all traffic on a segment (promiscuous mode / SPAN port)</li>
+            <li><strong>HIDS:</strong> Host IDS — monitors a single system (logs, file integrity, syscalls)</li>
+            <li><strong>IPS:</strong> Inline — can block traffic in real time (but adds latency)</li>
+            <li><strong>Honeypot:</strong> Decoy system that attracts attackers, capturing TTPs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 7: ATTACKS ===== -->
+<div class="section" id="attacks">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(252,129,129,0.2);color:var(--accent4)">07</div>
+    <h2>Network Attack Taxonomy</h2>
+  </div>
+
+  <div class="info-box">
+    <div class="box-title" style="color:var(--accent)">Study Note</div>
+    <p>Understanding how attacks work is essential for defense. This section maps attacks to OSI layers — helping you understand which controls apply at each layer.</p>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:1rem">
+    <div class="attack-card">
+      <div class="attack-name">Man-in-the-Middle (MitM)</div>
+      <div class="attack-layer">Layer 2-3 | ARP/DNS Spoofing</div>
+      <span class="sev-badge sev-crit">CRITICAL</span>
+      <p style="font-size:12px;color:var(--muted)">Attacker intercepts communication between two parties. Achieved via ARP poisoning, DNS hijacking, SSL stripping, rogue Wi-Fi. <strong>Defense:</strong> Certificate pinning, HSTS, mutual TLS, DNSSEC.</p>
+    </div>
+    <div class="attack-card">
+      <div class="attack-name">DDoS — Distributed Denial of Service</div>
+      <div class="attack-layer">Layer 3-7 | Volumetric / Protocol / Application</div>
+      <span class="sev-badge sev-crit">CRITICAL</span>
+      <p style="font-size:12px;color:var(--muted)">Flood target with traffic from many sources (botnets). Types: volumetric (bandwidth), protocol (SYN flood), application (HTTP flood). <strong>Defense:</strong> CDN, rate limiting, anycast, scrubbing centers.</p>
+    </div>
+    <div class="attack-card">
+      <div class="attack-name">Port Scanning</div>
+      <div class="attack-layer">Layer 4 | Reconnaissance</div>
+      <span class="sev-badge sev-med">MEDIUM</span>
+      <p style="font-size:12px;color:var(--muted)">Nmap, masscan used to discover open ports and services. SYN scan (half-open) is stealthiest. <strong>Defense:</strong> Firewall rules, port knocking, network monitoring.</p>
+    </div>
+    <div class="attack-card">
+      <div class="attack-name">BGP Hijacking</div>
+      <div class="attack-layer">Layer 3 | Routing Protocol</div>
+      <span class="sev-badge sev-crit">CRITICAL</span>
+      <p style="font-size:12px;color:var(--muted)">Malicious AS announces more-specific prefixes, diverting internet traffic. Major incidents: YouTube 2008, Amazon Route53 2018. <strong>Defense:</strong> RPKI, BGPsec, route filtering.</p>
+    </div>
+    <div class="attack-card">
+      <div class="attack-name">SSL Stripping</div>
+      <div class="attack-layer">Layer 7 | TLS Downgrade</div>
+      <span class="sev-badge sev-high">HIGH</span>
+      <p style="font-size:12px;color:var(--muted)">Attacker downgrades HTTPS connections to HTTP (often via MitM). Victim's browser sees HTTP. <strong>Defense:</strong> HSTS (HTTP Strict Transport Security), preloading HSTS.</p>
+    </div>
+    <div class="attack-card">
+      <div class="attack-name">VLAN Hopping</div>
+      <div class="attack-layer">Layer 2 | Switch Attacks</div>
+      <span class="sev-badge sev-high">HIGH</span>
+      <p style="font-size:12px;color:var(--muted)">Switch Spoofing or Double Tagging allows attacker to access traffic in different VLANs. <strong>Defense:</strong> Disable DTP, use dedicated native VLAN, prune VLANs.</p>
+    </div>
+    <div class="attack-card">
+      <div class="attack-name">Packet Sniffing</div>
+      <div class="attack-layer">Layer 1-2 | Passive</div>
+      <span class="sev-badge sev-high">HIGH</span>
+      <p style="font-size:12px;color:var(--muted)">Capturing network traffic with tools like Wireshark, tcpdump. Effective on shared media or after ARP poisoning. <strong>Defense:</strong> Encryption (TLS), switched networks, network segmentation.</p>
+    </div>
+    <div class="attack-card">
+      <div class="attack-name">IP Spoofing</div>
+      <div class="attack-layer">Layer 3 | Source Forgery</div>
+      <span class="sev-badge sev-high">HIGH</span>
+      <p style="font-size:12px;color:var(--muted)">Forging source IP in packets. Used to bypass IP-based ACLs, amplification DDoS, blind TCP injection. <strong>Defense:</strong> BCP38 ingress filtering (ISP level), stateful firewalls.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 8: TOOLS & PORTS ===== -->
+<div class="section" id="tools">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(246,173,85,0.2);color:var(--accent3)">08</div>
+    <h2>Essential Ports & Security Tools</h2>
+  </div>
+
+  <h3 class="sub">Critical Port Numbers (Must Memorize)</h3>
+  <div class="port-grid">
+    <div class="port-item"><div class="port-num">20/21</div><div>FTP</div><div class="port-proto">Data / Control</div></div>
+    <div class="port-item"><div class="port-num">22</div><div>SSH</div><div class="port-proto">Secure Shell</div></div>
+    <div class="port-item"><div class="port-num">23</div><div>Telnet</div><div class="port-proto">Plaintext (avoid)</div></div>
+    <div class="port-item"><div class="port-num">25</div><div>SMTP</div><div class="port-proto">Email send</div></div>
+    <div class="port-item"><div class="port-num">53</div><div>DNS</div><div class="port-proto">TCP+UDP</div></div>
+    <div class="port-item"><div class="port-num">67/68</div><div>DHCP</div><div class="port-proto">Server/Client</div></div>
+    <div class="port-item"><div class="port-num">80</div><div>HTTP</div><div class="port-proto">Web plaintext</div></div>
+    <div class="port-item"><div class="port-num">110</div><div>POP3</div><div class="port-proto">Email receive</div></div>
+    <div class="port-item"><div class="port-num">143</div><div>IMAP</div><div class="port-proto">Email (sync)</div></div>
+    <div class="port-item"><div class="port-num">161/162</div><div>SNMP</div><div class="port-proto">Network mgmt</div></div>
+    <div class="port-item"><div class="port-num">389</div><div>LDAP</div><div class="port-proto">Directory</div></div>
+    <div class="port-item"><div class="port-num">443</div><div>HTTPS</div><div class="port-proto">Web TLS</div></div>
+    <div class="port-item"><div class="port-num">445</div><div>SMB</div><div class="port-proto">File sharing (EternalBlue)</div></div>
+    <div class="port-item"><div class="port-num">514</div><div>Syslog</div><div class="port-proto">UDP logging</div></div>
+    <div class="port-item"><div class="port-num">587</div><div>SMTP</div><div class="port-proto">Submission (auth)</div></div>
+    <div class="port-item"><div class="port-num">636</div><div>LDAPS</div><div class="port-proto">LDAP over TLS</div></div>
+    <div class="port-item"><div class="port-num">993</div><div>IMAPS</div><div class="port-proto">IMAP over TLS</div></div>
+    <div class="port-item"><div class="port-num">995</div><div>POP3S</div><div class="port-proto">POP3 over TLS</div></div>
+    <div class="port-item"><div class="port-num">1433</div><div>MSSQL</div><div class="port-proto">MS SQL Server</div></div>
+    <div class="port-item"><div class="port-num">1521</div><div>Oracle</div><div class="port-proto">Oracle DB</div></div>
+    <div class="port-item"><div class="port-num">3306</div><div>MySQL</div><div class="port-proto">MySQL DB</div></div>
+    <div class="port-item"><div class="port-num">3389</div><div>RDP</div><div class="port-proto">Remote Desktop</div></div>
+    <div class="port-item"><div class="port-num">5432</div><div>PostgreSQL</div><div class="port-proto">PostgreSQL DB</div></div>
+    <div class="port-item"><div class="port-num">8080</div><div>HTTP Alt</div><div class="port-proto">Proxy / Dev</div></div>
+  </div>
+
+  <h3 class="sub" style="margin-top:1.5rem">Security Tool Cheat Sheet</h3>
+  <table>
+    <tr><th>Tool</th><th>Purpose</th><th>Key Commands</th></tr>
+    <tr><td><strong>nmap</strong></td><td>Port scanning, OS detection</td><td><code>nmap -sS -O -p- target</code> (SYN scan + OS)</td></tr>
+    <tr><td><strong>Wireshark</strong></td><td>Packet capture & analysis</td><td>Filter: <code>tcp.port==80</code>, <code>http.request</code></td></tr>
+    <tr><td><strong>tcpdump</strong></td><td>CLI packet capture</td><td><code>tcpdump -i eth0 port 80 -w cap.pcap</code></td></tr>
+    <tr><td><strong>netstat</strong></td><td>Active connections</td><td><code>netstat -tulnp</code> (listening ports)</td></tr>
+    <tr><td><strong>traceroute</strong></td><td>Path discovery</td><td><code>traceroute -I target.com</code> (ICMP)</td></tr>
+    <tr><td><strong>dig</strong></td><td>DNS queries</td><td><code>dig @8.8.8.8 target.com ANY</code></td></tr>
+    <tr><td><strong>arp</strong></td><td>ARP table inspection</td><td><code>arp -a</code></td></tr>
+    <tr><td><strong>ss</strong></td><td>Socket statistics</td><td><code>ss -tulnp</code> (modern netstat)</td></tr>
+    <tr><td><strong>iptables</strong></td><td>Linux firewall rules</td><td><code>iptables -L -n -v</code> (list rules)</td></tr>
+    <tr><td><strong>masscan</strong></td><td>Fast port scanner</td><td><code>masscan -p1-65535 --rate=1000 target</code></td></tr>
+  </table>
+</div>
+
+<!-- ===== SECTION 9: QUIZ ===== -->
+<div class="section" id="quiz">
+  <div class="section-header">
+    <div class="section-num" style="background:rgba(183,148,244,0.2);color:var(--accent5)">09</div>
+    <h2>Knowledge Check Quiz</h2>
+  </div>
+
+  <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+    <span style="color:var(--muted);font-size:13px" id="quiz-progress-label">Question 1 of 10</span>
+    <span style="color:var(--accent);font-size:13px;font-weight:600" id="quiz-score-label">Score: 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="quiz-progress" style="width:10%"></div></div>
+
+  <div style="margin-top:1.5rem" id="quiz-container"></div>
+
+  <div style="margin-top:1rem;display:flex;gap:10px">
+    <button id="quiz-next" onclick="nextQuestion()" style="background:var(--accent);border:none;color:#0a0e1a;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:700;font-family:inherit;display:none">Next Question →</button>
+    <button onclick="resetQuiz()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 20px;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit">Restart</button>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<script>
+/* ===== OSI Layer Info ===== */
+const layerData = {
+  7: {
+    color: '#fc8181',
+    title: 'Application Layer (L7)',
+    pdu: 'Data',
+    function: 'Provides network services directly to user applications. Handles high-level APIs for email, file transfer, web browsing.',
+    protocols: ['HTTP/HTTPS (80/443)', 'FTP (20/21)', 'SSH (22)', 'SMTP (25)', 'DNS (53)', 'SNMP (161)', 'Telnet (23)'],
+    attacks: ['SQL Injection', 'XSS', 'Directory Traversal', 'Command Injection', 'HTTP Flood DDoS', 'DNS Cache Poisoning'],
+    defense: 'WAF, input validation, rate limiting, DNSSEC, content security policy'
+  },
+  6: {
+    color: '#f6ad55',
+    title: 'Presentation Layer (L6)',
+    pdu: 'Data',
+    function: 'Data translation, encryption/decryption, compression. Ensures data is in a format the application layer can use.',
+    protocols: ['SSL/TLS', 'JPEG/GIF/MPEG', 'ASCII/EBCDIC', 'MIME', 'XDR'],
+    attacks: ['SSL Stripping', 'Padding Oracle Attack', 'BEAST/POODLE (TLS vulnerabilities)', 'Malformed format exploitation'],
+    defense: 'TLS 1.3+, strong cipher suites, HSTS, certificate pinning'
+  },
+  5: {
+    color: '#68d391',
+    title: 'Session Layer (L5)',
+    pdu: 'Data',
+    function: 'Establishes, manages, and terminates sessions between applications. Handles synchronization checkpoints and dialog control.',
+    protocols: ['NetBIOS', 'RPC', 'PPTP', 'SCP', 'L2TP', 'SQL sessions'],
+    attacks: ['Session Hijacking', 'Cross-Site Request Forgery (CSRF)', 'Session Fixation', 'SMB relay attacks'],
+    defense: 'Secure session tokens, CSRF tokens, re-authentication for sensitive actions'
+  },
+  4: {
+    color: '#63b3ed',
+    title: 'Transport Layer (L4)',
+    pdu: 'Segment (TCP) / Datagram (UDP)',
+    function: 'End-to-end communication between processes. Handles segmentation, flow control, error recovery, and port addressing.',
+    protocols: ['TCP (reliable, connection-oriented)', 'UDP (fast, connectionless)', 'SCTP', 'QUIC (HTTP/3)'],
+    attacks: ['SYN Flood', 'TCP Session Hijacking', 'UDP Flood', 'Port Scanning', 'Fragmentation Attacks'],
+    defense: 'SYN cookies, rate limiting, stateful firewalls, port filtering'
+  },
+  3: {
+    color: '#b794f4',
+    title: 'Network Layer (L3)',
+    pdu: 'Packet',
+    function: 'Logical addressing (IP) and routing. Determines best path for data across internetworks. Handles fragmentation and reassembly.',
+    protocols: ['IP (IPv4/IPv6)', 'ICMP', 'OSPF', 'BGP', 'RIP', 'IGMP', 'IPSec'],
+    attacks: ['IP Spoofing', 'BGP Hijacking', 'ICMP Flood', 'Ping of Death', 'Smurf Attack', 'TTL expiry attacks'],
+    defense: 'BCP38 filtering, RPKI, firewall ACLs, IPS, IPSec'
+  },
+  2: {
+    color: '#68d391',
+    title: 'Data Link Layer (L2)',
+    pdu: 'Frame',
+    function: 'Node-to-node data transfer via MAC addresses. Handles framing, error detection (CRC), flow control, and media access control.',
+    protocols: ['Ethernet (802.3)', 'Wi-Fi (802.11)', 'ARP', 'PPP', 'HDLC', 'Spanning Tree (STP)'],
+    attacks: ['ARP Spoofing/Poisoning', 'MAC Flooding', 'VLAN Hopping', 'STP Root Attack', 'Evil Twin AP'],
+    defense: 'Dynamic ARP Inspection, 802.1X NAC, port security, DHCP snooping'
+  },
+  1: {
+    color: '#f6ad55',
+    title: 'Physical Layer (L1)',
+    pdu: 'Bits',
+    function: 'Transmission of raw bits over physical medium. Defines electrical/optical signals, cable types, connectors, transmission rates.',
+    protocols: ['Ethernet (physical spec)', 'DSL', 'SONET/SDH', 'USB', 'Bluetooth (physical)', '802.11 radio'],
+    attacks: ['Physical Wiretapping', 'Signal Jamming', 'Evil Twin (Wi-Fi)', 'Hardware implants', 'Optical fiber tapping'],
+    defense: 'Physical security controls, fiber optics (harder to tap), cable shielding, Faraday cages'
+  }
+};
+
+function selectLayer(n) {
+  document.querySelectorAll('.osi-layer').forEach(l => l.classList.remove('selected'));
+  document.querySelector(`[data-layer="${n}"]`).classList.add('selected');
+  const d = layerData[n];
+  document.getElementById('layer-info-box').innerHTML = `
+    <div style="animation:slideDown .2s ease">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <div style="width:28px;height:28px;border-radius:50%;background:${d.color}22;border:2px solid ${d.color};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${d.color}">${n}</div>
+        <div style="font-size:15px;font-weight:600;color:${d.color}">${d.title}</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:4px">PDU: <span style="color:var(--text)">${d.pdu}</span></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">${d.function}</p>
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:4px;text-transform:uppercase">Protocols</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">${d.protocols.map(p=>`<span class="tag" style="font-size:10px">${p}</span>`).join('')}</div>
+      </div>
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;color:var(--accent4);margin-bottom:4px;text-transform:uppercase">⚔️ Attack Vectors</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">${d.attacks.map(a=>`<span style="background:rgba(252,129,129,0.12);border:1px solid rgba(252,129,129,0.25);color:var(--accent4);font-size:10px;padding:2px 7px;border-radius:4px">${a}</span>`).join('')}</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted)"><strong style="color:var(--accent2)">🛡️ Defense:</strong> ${d.defense}</div>
+    </div>`;
+}
+
+/* ===== TAB SWITCHER ===== */
+function switchTab(containerId, targetId) {
+  const container = document.getElementById(containerId);
+  container.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  container.querySelector('#' + targetId).classList.add('active');
+  const tabs = container.previousElementSibling;
+  tabs.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', b.getAttribute('onclick').includes(targetId));
+  });
+}
+
+/* ===== TCP STEPPER ===== */
+function tcpStep(n) {
+  document.querySelectorAll('#tcp-steps .step-btn').forEach((b,i) => b.classList.toggle('active', i===n));
+  document.querySelectorAll('#tcp-stepper-box .step-panel').forEach((p,i) => {
+    p.classList.toggle('active', i===n);
+    p.style.display = i===n ? 'block' : 'none';
+  });
+}
+document.querySelectorAll('#tcp-stepper-box .step-panel').forEach((p,i) => {p.style.display = i===0 ? 'block' : 'none'});
+
+/* ===== IP CALCULATOR ===== */
+function calcIP(val) {
+  const res = document.getElementById('calc-result');
+  const match = val.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)\/(\d+)$/);
+  if (!match) { res.innerHTML = ''; return; }
+  const [,a,b,c,d,prefix] = match.map(Number);
+  if (a>255||b>255||c>255||d>255||prefix>32) { res.innerHTML = '<div style="color:var(--accent4);font-size:13px">Invalid address</div>'; return; }
+  const ip = (a<<24)|(b<<16)|(c<<8)|d;
+  const mask = prefix === 0 ? 0 : (~0 << (32-prefix)) >>> 0;
+  const network = (ip & mask) >>> 0;
+  const broadcast = (network | (~mask >>> 0)) >>> 0;
+  const first = prefix < 31 ? network + 1 : network;
+  const last = prefix < 31 ? broadcast - 1 : broadcast;
+  const hosts = prefix >= 31 ? Math.pow(2,32-prefix) : Math.pow(2,32-prefix) - 2;
+  const toIP = n => [n>>>24, (n>>>16)&255, (n>>>8)&255, n&255].join('.');
+  const maskStr = [mask>>>24, (mask>>>16)&255, (mask>>>8)&255, mask&255].join('.');
+  res.innerHTML = `
+    <div class="ip-stat"><div class="ip-stat-label">Network Address</div><div class="ip-stat-val">${toIP(network)}</div></div>
+    <div class="ip-stat"><div class="ip-stat-label">Subnet Mask</div><div class="ip-stat-val">${maskStr}</div></div>
+    <div class="ip-stat"><div class="ip-stat-label">Broadcast</div><div class="ip-stat-val">${toIP(broadcast)}</div></div>
+    <div class="ip-stat"><div class="ip-stat-label">First Usable Host</div><div class="ip-stat-val">${toIP(first)}</div></div>
+    <div class="ip-stat"><div class="ip-stat-label">Last Usable Host</div><div class="ip-stat-val">${toIP(last)}</div></div>
+    <div class="ip-stat"><div class="ip-stat-label">Usable Hosts</div><div class="ip-stat-val">${hosts.toLocaleString()}</div></div>
+    <div class="ip-stat"><div class="ip-stat-label">Prefix Length</div><div class="ip-stat-val">/${prefix}</div></div>`;
+}
+
+/* ===== QUIZ ===== */
+const questions = [
+  { q: 'Which OSI layer is responsible for logical IP addressing and routing?', opts: ['Data Link Layer (L2)', 'Transport Layer (L4)', 'Network Layer (L3)', 'Session Layer (L5)'], ans: 2, explain: 'The Network Layer (L3) handles IP addressing, routing via OSPF/BGP, and packet forwarding between networks.' },
+  { q: 'What is the maximum number of usable host addresses in a /25 subnet?', opts: ['128', '126', '254', '64'], ans: 1, explain: 'A /25 gives 2^7 = 128 addresses, minus 2 (network + broadcast) = 126 usable hosts.' },
+  { q: 'ARP Spoofing attacks target which layer of the OSI model?', opts: ['Layer 3 (Network)', 'Layer 2 (Data Link)', 'Layer 4 (Transport)', 'Layer 7 (Application)'], ans: 1, explain: 'ARP operates at Layer 2 (Data Link), mapping IP addresses to MAC addresses. ARP spoofing poisons the ARP cache.' },
+  { q: 'Which TCP flag combination is used in a SYN Flood attack?', opts: ['SYN+ACK', 'SYN only', 'FIN+ACK', 'RST+SYN'], ans: 1, explain: 'SYN flood sends only SYN packets. The server responds with SYN-ACK but never receives ACK, exhausting its connection backlog.' },
+  { q: 'What does the TTL field in an IP header protect against?', opts: ['Data corruption', 'Routing loops (infinite packet loops)', 'Unauthorized access', 'Packet fragmentation'], ans: 1, explain: 'TTL (Time-to-Live) decrements at each hop. When it reaches 0, the packet is discarded — preventing packets from circulating forever.' },
+  { q: 'Which protocol resolves domain names to IP addresses?', opts: ['DHCP', 'ARP', 'DNS', 'ICMP'], ans: 2, explain: 'DNS (Domain Name System, port 53) translates human-readable hostnames like google.com into IP addresses.' },
+  { q: 'In HTTPS, TLS operates at which OSI layer?', opts: ['Application (L7)', 'Presentation (L6)', 'Session (L5)', 'Transport (L4)'], ans: 1, explain: 'TLS operates at the Presentation Layer (L6) in the OSI model, handling encryption, decryption, and certificate authentication.' },
+  { q: 'What type of DDoS attack exploits DNS open resolvers with spoofed victim IP?', opts: ['SYN Flood', 'DNS Amplification', 'Slowloris', 'HTTP Flood'], ans: 1, explain: 'DNS Amplification sends small queries to open resolvers with the victim\'s spoofed IP. The resolver sends large responses (100x amplification) to the victim.' },
+  { q: 'NAT primarily operates at which layer?', opts: ['Layer 2', 'Layer 3', 'Layer 4', 'Layer 7'], ans: 1, explain: 'NAT operates at Layer 3 (Network layer), modifying IP addresses in packet headers. PAT also modifies Layer 4 port numbers.' },
+  { q: 'Which of these is NOT a valid private IP range (RFC 1918)?', opts: ['10.0.0.0/8', '172.16.0.0/12', '169.254.0.0/16', '192.168.0.0/16'], ans: 2, explain: '169.254.0.0/16 is the APIPA (Automatic Private IP Addressing) / link-local range — it is not an RFC 1918 private range. RFC 1918 specifies 10/8, 172.16/12, and 192.168/16.' }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('quiz-progress-label').textContent = `Question ${current+1} of ${questions.length}`;
+  document.getElementById('quiz-progress').style.width = `${((current+1)/questions.length)*100}%`;
+  document.getElementById('quiz-container').innerHTML = `
+    <div class="card" style="margin-bottom:0">
+      <div class="quiz-q">${current+1}. ${q.q}</div>
+      <div class="quiz-opts">${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="answer(${i})">${o}</button>`).join('')}</div>
+      <div class="quiz-feedback" id="qfeedback"></div>
+    </div>`;
+  document.getElementById('quiz-next').style.display = 'none';
+  answered = false;
+}
+
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach((b,i) => {
+    b.disabled = true;
+    if (i === q.ans) b.classList.add('correct');
+    else if (i === idx && idx !== q.ans) b.classList.add('wrong');
+  });
+  if (idx === q.ans) score++;
+  document.getElementById('quiz-score-label').textContent = `Score: ${score}`;
+  const fb = document.getElementById('qfeedback');
+  fb.className = 'quiz-feedback show';
+  fb.style.background = idx===q.ans ? 'rgba(104,211,145,0.1)' : 'rgba(252,129,129,0.1)';
+  fb.style.color = idx===q.ans ? 'var(--accent2)' : 'var(--accent4)';
+  fb.style.borderRadius = '8px';
+  fb.style.padding = '10px 14px';
+  fb.innerHTML = (idx===q.ans ? '✅ Correct! ' : '❌ Incorrect. ') + q.explain;
+  if (current < questions.length - 1) document.getElementById('quiz-next').style.display = 'inline-block';
+  else {
+    setTimeout(() => {
+      document.getElementById('quiz-container').innerHTML += `
+        <div class="success-box" style="margin-top:1rem">
+          <div class="box-title" style="color:var(--accent2)">Quiz Complete!</div>
+          <p>You scored <strong>${score}/${questions.length}</strong> (${Math.round(score/questions.length*100)}%). ${score>=8?'Excellent work!':score>=5?'Good effort — review the sections you missed.':'Keep studying the fundamentals!'}</p>
+        </div>`;
+    }, 500);
+  }
+}
+
+function nextQuestion() {
+  current++;
+  renderQuestion();
+}
+
+function resetQuiz() {
+  current = 0; score = 0; answered = false;
+  document.getElementById('quiz-score-label').textContent = 'Score: 0';
+  renderQuestion();
+}
+
+/* ===== NAV ACTIVE STATE ===== */
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-inner a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+cur));
+});
+
+/* Init */
+renderQuestion();
+selectLayer(3);
+</script>
+</body>
+</html>
